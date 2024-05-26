@@ -3,9 +3,10 @@
 `boolgen` is a Python library and command-line tool for generating and
 simplifying Boolean expressions from truth tables. 
 
-The library implenents a version of the [Quine-McCluskey
+The library implements a version of the [Quine-McCluskey
 method](https://en.wikipedia.org/wiki/Quine%E2%80%93McCluskey_algorithm) to
-perform the simplification. 
+perform the simplification. I created it to help with [designing digital logic
+circuits](https://github.com/SebLague/Digital-Logic-Sim) from truth tables.
 
 ## Installation
 
@@ -74,3 +75,7 @@ Contributions are welcome! Please fork the repository and submit pull requests.
 
 This project is licensed under the MIT License. See [LICENSE.md](LICENSE.md)
 for details.
+
+TBQH I used ChatGPT liberally when creating this module, so if you find your
+own code in here, please let me know so I can remove it or else attribute you
+properly.
