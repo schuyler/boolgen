@@ -47,10 +47,20 @@ A B C D= E=
 1 1 1 0 1
 ```
 
+Truth table columns can be delimited by one or more non-alphanumeric
+characters.
+
 Input and output variables can be identified with any alphanumeric string
-(including underscores). Output variables are identified by a pre- or postfix
-'='. If no output variable is explicitly declared, the last column in the table
-is assumed to be the output.
+(including underscores).
+
+Output variables are identified by a pre- or postfix '='.
+
+If no output variable is explicitly declared, the last column in the table is
+assumed to be the output.
+
+Truth values can be `0`, `1`, or `-` for "don't care".
+
+No error checking is done on these values, so check your work.
 
 ### Output
 
