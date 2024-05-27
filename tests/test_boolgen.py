@@ -69,7 +69,7 @@ class TestBoolgen(unittest.TestCase):
                         1 1 1 1"""
         input_vars, output_vars, truth_table = parse_input(input_data)
         expression = simplify_expression(input_vars, truth_table, 0)
-        expected_expression = "~A & B & ~C | A & ~B & ~C | ~A & ~B & C | A & B & C"
+        expected_expression = "A & B & C | A & ~B & ~C | B & ~A & ~C | C & ~A & ~B"
         sorted_expected_expression = ' | '.join(sorted(expected_expression.split(' | ')))
 
         self.assertEqual(expression, sorted_expected_expression)
@@ -88,8 +88,8 @@ class TestBoolgen(unittest.TestCase):
         expression1 = simplify_expression(input_vars, truth_table, 0)
         expression2 = simplify_expression(input_vars, truth_table, 1)
 
-        expected_expression1 = "A & B & C | A & ~B & ~C | ~A & B & ~C | ~A & ~B & C"
-        expected_expression2 = "~A & ~B & ~C | A & B & ~C | ~A & B & C | A & ~B & C"
+        expected_expression1 = "A & B & C | A & ~B & ~C | B & ~A & ~C | C & ~A & ~B"
+        expected_expression2 = "A & B & ~C | A & C & ~B | B & C & ~A | ~A & ~B & ~C"
         sorted_expected_expression1 = ' | '.join(sorted(expected_expression1.split(' | ')))
         sorted_expected_expression2 = ' | '.join(sorted(expected_expression2.split(' | ')))
 

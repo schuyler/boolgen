@@ -117,15 +117,6 @@ def find_prime_implicants(num_vars: int, minterms: List[int]) -> List[str]:
     prime_implicants = find_essential_prime_implicants(prime_implicants, minterms)
     return prime_implicants
 
-# Function to convert binary terms to Boolean expression
-def binary_to_expression(binary, variables):
-    expression = []
-    for bit, var in zip(binary, variables):
-        if bit == '1':
-            expression.append(var)
-        elif bit == '0':
-            expression.append(f'~{var}')
-    return ' & '.join(expression)
 
 # Function to simplify Boolean expressions
 def simplify_expression(input_vars: List[str], truth_table: List[List[int]], output_index: int) -> str:
@@ -155,7 +146,7 @@ def simplify_expression(input_vars: List[str], truth_table: List[List[int]], out
                 parts.append(f"~{var}")
             elif bit == '1':
                 parts.append(var)
-        return ' & '.join(parts)
+        return ' & '.join(sorted(parts))
 
     expressions = [term_to_expression(term) for term in prime_implicants]
     return ' | '.join(sorted(expressions))
