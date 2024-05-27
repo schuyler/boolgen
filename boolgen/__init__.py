@@ -84,38 +84,34 @@ def find_prime_implicants(num_vars: int, minterms: List[int]) -> List[str]:
         groups = new_groups
 
     # Essential Prime Implicant Reduction
-    def find_essential_prime_implicants(prime_implicants, minterms):
-        prime_implicant_chart = {term: set(term_to_indices(term)) for term in prime_implicants}
-        minterm_chart = {minterm: [] for minterm in minterms}
-        for term, indices in prime_implicant_chart.items():
-            for index in indices:
-                if index in minterm_chart:
-                    minterm_chart[index].append(term)
+    prime_implicant_chart = {term: set(term_to_indices(term)) for term in prime_implicants}
+    minterm_chart = {minterm: [] for minterm in minterms}
+    for term, indices in prime_implicant_chart.items():
+        for index in indices:
+            if index in minterm_chart:
+                minterm_chart[index].append(term)
 
-        essential_prime_implicants = set()
-        while minterm_chart:
-            for minterm, terms in minterm_chart.items():
-                if len(terms) == 1:
-                    essential_prime_implicant = terms[0]
-                    break
+    essential_prime_implicants = set()
+    while minterm_chart:
+        for minterm, terms in minterm_chart.items():
+            if len(terms) == 1:
+                essential_prime_implicant = terms[0]
+                break
+        else:
+            essential_prime_implicant = max(prime_implicant_chart, key=lambda t: len(prime_implicant_chart[t]))
+
+        essential_prime_implicants.add(essential_prime_implicant)
+        covered_minterms = prime_implicant_chart.pop(essential_prime_implicant)
+        minterm_chart = {m: terms for m, terms in minterm_chart.items() if m not in covered_minterms}
+
+        for minterm, terms in minterm_chart.items():
+            terms = [t for t in terms if t != essential_prime_implicant]
+            if terms:
+                minterm_chart[minterm] = terms
             else:
-                essential_prime_implicant = max(prime_implicant_chart, key=lambda t: len(prime_implicant_chart[t]))
+                del minterm_chart[minterm]
 
-            essential_prime_implicants.add(essential_prime_implicant)
-            covered_minterms = prime_implicant_chart.pop(essential_prime_implicant)
-            minterm_chart = {m: terms for m, terms in minterm_chart.items() if m not in covered_minterms}
-
-            for minterm, terms in minterm_chart.items():
-                terms = [t for t in terms if t != essential_prime_implicant]
-                if terms:
-                    minterm_chart[minterm] = terms
-                else:
-                    del minterm_chart[minterm]
-
-        return essential_prime_implicants
-
-    prime_implicants = find_essential_prime_implicants(prime_implicants, minterms)
-    return prime_implicants
+    return essential_prime_implicants
 
 
 # Function to simplify Boolean expressions
