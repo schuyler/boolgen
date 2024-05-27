@@ -14,16 +14,25 @@ def parse_input(input_string: str) -> Tuple[List[str], List[str], List[List[int]
     :param input_data: A string containing the input data
     :return: A tuple containing the list of input variables, list of output variables, and the truth table
     """
+
+    def is_output_var(v):
+        return bool(re.search(r'^(?:out|=)|=$', v, re.I))
+
     # Split the input string by non-alphanumeric characters
-    rows = [re.split(r'\W+', row.strip()) for row in input_string.strip().split('\n')]
+    rows = [re.split(r'(?!=)\W+', row.strip()) for row in input_string.strip().split('\n')]
     
     # Extract the header (variables) and the rest of the rows (values)
     variables = rows[0]
     truth_table = [list(map(int, row)) for row in rows[1:]]
     
-    # Determine the number of input variables and output variables
-    input_vars = [var for var in variables if not var.lower().startswith('out')]
-    output_vars = [var for var in variables if var.lower().startswith('out')]
+    # Determine the input variables and output variables
+    input_vars = [var for var in variables if not is_output_var(var)]
+    output_vars = [var.replace('=', '') for var in variables if is_output_var(var)]
+
+    # If no output variables were explicitly declared using pre/postfix '=',
+    # assume that the last column is meant to be an output.
+    if not output_vars:
+        output_vars.append(input_vars.pop())
     
     return input_vars, output_vars, truth_table
 

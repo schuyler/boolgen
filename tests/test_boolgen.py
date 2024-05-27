@@ -4,7 +4,7 @@ from boolgen import parse_input, simplify_expression
 class TestBoolgen(unittest.TestCase):
 
     def test_parse_input_single_output(self):
-        input_data = """A B C Output
+        input_data = """A B C D=
                         0 0 0 0
                         0 0 1 1
                         0 1 0 1
@@ -15,7 +15,7 @@ class TestBoolgen(unittest.TestCase):
                         1 1 1 1"""
         input_vars, output_vars, truth_table = parse_input(input_data)
         expected_input_vars = ['A', 'B', 'C']
-        expected_output_vars = ['Output']
+        expected_output_vars = ['D']
         expected_truth_table = [
             [0, 0, 0, 0],
             [0, 0, 1, 1],
@@ -30,8 +30,20 @@ class TestBoolgen(unittest.TestCase):
         self.assertEqual(output_vars, expected_output_vars)
         self.assertEqual(truth_table, expected_truth_table)
 
+    def test_parse_input_implicit_output(self):
+        input_data = """A B
+                        0 0
+                        0 1
+                        1 0
+                        1 1"""
+        input_vars, output_vars, _ = parse_input(input_data)
+        expected_input_vars = ['A']
+        expected_output_vars = ['B']
+        self.assertEqual(input_vars, expected_input_vars)
+        self.assertEqual(output_vars, expected_output_vars)
+
     def test_parse_input_multiple_outputs(self):
-        input_data = """A B C Output1 Output2
+        input_data = """A B C D= E=
                         0 0 0 0 1
                         0 0 1 1 0
                         0 1 0 1 0
@@ -42,7 +54,7 @@ class TestBoolgen(unittest.TestCase):
                         1 1 1 1 0"""
         input_vars, output_vars, truth_table = parse_input(input_data)
         expected_input_vars = ['A', 'B', 'C']
-        expected_output_vars = ['Output1', 'Output2']
+        expected_output_vars = ['D', 'E']
         expected_truth_table = [
             [0, 0, 0, 0, 1],
             [0, 0, 1, 1, 0],
@@ -58,7 +70,7 @@ class TestBoolgen(unittest.TestCase):
         self.assertEqual(truth_table, expected_truth_table)
 
     def test_simplify_expression_single_output(self):
-        input_data = """A B C Output
+        input_data = """A B C D=
                         0 0 0 0
                         0 0 1 1
                         0 1 0 1
@@ -75,7 +87,7 @@ class TestBoolgen(unittest.TestCase):
         self.assertEqual(expression, sorted_expected_expression)
 
     def test_simplify_expression_multiple_outputs(self):
-        input_data = """A B C Output1 Output2
+        input_data = """A B C D= E=
                         0 0 0 0 1
                         0 0 1 1 0
                         0 1 0 1 0
@@ -97,7 +109,7 @@ class TestBoolgen(unittest.TestCase):
         self.assertEqual(expression2, sorted_expected_expression2)
 
     def test_simplify_expression_all_zeros(self):
-        input_data = """A B C Output
+        input_data = """A B C D=
                         0 0 0 0
                         0 0 1 0
                         0 1 0 0
@@ -113,7 +125,7 @@ class TestBoolgen(unittest.TestCase):
         self.assertEqual(expression, expected_expression)
 
     def test_simplify_expression_all_ones(self):
-        input_data = """A B C Output
+        input_data = """A B C D=
                         0 0 0 1
                         0 0 1 1
                         0 1 0 1
@@ -129,7 +141,7 @@ class TestBoolgen(unittest.TestCase):
         self.assertEqual(expression, expected_expression)
 
     def test_simplify_expression_some_simplification(self):
-        input_data = """A B C Output
+        input_data = """A B C D=
                         0 0 0 0
                         0 0 1 1
                         0 1 0 1

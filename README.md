@@ -39,7 +39,7 @@ If no filename is provided, then `boolgen` will try to read the table from
 Create a file named `input.txt` with the following content:
 
 ```
-A B C Output1 Output2
+A B C D= E=
 0 0 0 0 1
 0 0 1 1 0
 0 1 0 1 0
@@ -48,16 +48,17 @@ A B C Output1 Output2
 ```
 
 Input and output variables can be identified with any alphanumeric string
-(including underscores). Output variables are identified by the
-case-insensitive prefix `out`.
+(including underscores). Output variables are identified by a pre- or postfix
+'='. If no output variable is explicitly declared, the last column in the table
+is assumed to be the output.
 
 ### Output
 
 `boolgen` will output the simplified Boolean expressions for each output variable in the truth table.
 
 ```
-Output1 = A | B & ~C
-Output2 = ~A & ~B & ~C | A & B & C
+D = A | B & ~C
+E = ~A & ~B & ~C | A & B & C
 ```
 
 In degenerate cases, an output variable might be set to `0` or `1`.
